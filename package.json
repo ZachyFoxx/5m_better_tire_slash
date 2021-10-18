@@ -1,0 +1,33 @@
+{
+  "name": "5m_better_tire_slash",
+  "version": "1.0.0",
+  "description": "An enhanced version of slashtires by xander1998",
+  "main": "index.js",
+  "repository": "https://github.com/ZachyFoxx/5m_better_tire_slash.git",
+  "author": "Zachery Elliot <zachery@foxboy.sh>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc src/client/client.ts --outfile dist/client/client.js && tsc src/server/server.ts --outfile dist/server/client.js && run-script-os",
+    "build:win32": "copy src\\fxmanifest.lua dist",
+    "build:linux": "cp src/fxmanifest.lua dist"
+  },
+  "dependencies": {
+    "@citizenfx/client": "^1.0.2792-1",
+    "@citizenfx/server": "^1.0.2792-1",
+    "@types/node": "^14.0.27",
+    "run-script-os": "^1.1.6"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "prettier": "^2.0.5",
+    "remove-files-webpack-plugin": "^1.4.3",
+    "ts-loader": "^8.0.2",
+    "typescript": "^3.9.7",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
