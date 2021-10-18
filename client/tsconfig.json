@@ -1,0 +1,10 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"types": ["@citizenfx/client", "@types/node"],
+		"composite": true,
+		"rootDir": "./src",
+		"baseUrl": "."
+	},
+	"include": ["src"]
+}
