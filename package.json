@@ -7,15 +7,18 @@
 	"author": "Zachery Elliot <zachery@foxboy.sh>",
 	"license": "MIT",
 	"scripts": {
-		"build": "tsc -p tsconfig.json && run-script-os",
-		"build:win32": "copy src\\fxmanifest.lua dist",
+		"minify": "uglifyjs ./dist/client/src/client.js --compress --mangle -o ./dist/client/src/client.js && uglifyjs ./dist/server/src/server.js --compress --mangle -o ./dist/server/src/server.js",
+		"build": "tsc -p tsconfig.json && yarn minify && run-script-os",
+		"build:win32": "copy fxmanifest.lua dist",
 		"build:linux": "cp fxmanifest.lua dist"
 	},
 	"dependencies": {
 		"@citizenfx/client": "^1.0.2792-1",
 		"@citizenfx/server": "^1.0.2792-1",
 		"@types/node": "^14.0.27",
-		"run-script-os": "^1.1.6"
+		"run-script-os": "^1.1.6",
+		"tsc": "^2.0.3",
+		"uglify-js": "^3.14.2"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.0.0",
