@@ -4,6 +4,10 @@ function Delay(ms: number) {
 	});
 }
 
+onNet("burst_tires_client", async (vehicle: number, tire: number) => {
+	SetVehicleTyreBurst(vehicle, tire, false, 1000.0);
+});
+
 // ref: https://wiki.gtanet.work/index.php?title=Weapons_Models
 const ALLOWED_WEAPONS = [
 	-1716189206,
@@ -22,28 +26,33 @@ setTick(async () => {
 	const player = PlayerPedId();
 	const hit = getClosestVehicle();
 
-
-	if (hit && IsEntityAVehicle(hit) && !IsPedSittingInVehicle(player, GetVehiclePedIsIn(player, false))
-	 && getClosestVehicleTire(hit)[1] <= 1 && !IsVehicleTyreBurst(hit, getClosestVehicleTire(hit)[0], false) 
-	 && ALLOWED_WEAPONS.includes(GetSelectedPedWeapon(player))
+	if (
+		hit && IsEntityAVehicle(hit) 
+			&& !IsPedSittingInVehicle(player, GetVehiclePedIsIn(player, false))
+			&& getClosestVehicleTire(hit)[1] <= 1
+			&& !IsVehicleTyreBurst(hit, getClosestVehicleTire(hit)[0], false)
+			&& ALLOWED_WEAPONS.includes(GetSelectedPedWeapon(player))
 	) {
 		drawHelpText(`Press ~INPUT_PICKUP~ to slash tire`);
 		if (IsControlPressed(1,38)) {
 			const animDuration = GetAnimDuration(animDictonary, animName);
 			TaskPlayAnim(player, animDictonary, animName, 8.0, -8.0, animDuration, 15, 1.0, false, false, false);
 			await Delay((animDuration / 2) * 1000)
-			SetVehicleTyreBurst(hit, getClosestVehicleTire(hit)[0], false, 1000.0);
+			// check again in case the vehicle drives off.
+			if (getClosestVehicleTire(hit)[1] <= 1) {
+				emitNet("burst_tires_server", hit, getClosestVehicleTire(hit)[0]);
+			}
 			await Delay((animDuration / 2) * 1000)
 			ClearPedTasksImmediately(player);
 		}
 	}
 	await Delay(250);
-})
+});
 
 function drawHelpText(text: string) {
 	SetTextComponentFormat("STRING");
 	AddTextComponentString(text);
-	DisplayHelpTextFromStringLabel(0, false, false, -1);
+	DisplayHelpTextFromStringLabel(0, true, true, -1);
 }
 
 function getClosestVehicle(): number {

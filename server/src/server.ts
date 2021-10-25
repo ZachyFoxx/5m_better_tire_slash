@@ -1,7 +1,3 @@
-onNet('helloserver', () => {
-    const _source = (global as any).source;
-  
-    console.log(`Hello from ${_source}`);
-  
-    emitNet('helloclient', _source, 'i got your message!');
-  });
+onNet("burst_tires_server", async (vehicle: number, tire: number) => {
+    emitNet("burst_tires_client", -1, vehicle, tire);
+});
