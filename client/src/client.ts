@@ -45,14 +45,17 @@ setTick(async () => {
 			await Delay((animDuration / 2) * 1000)
 			ClearPedTasksImmediately(player);
 		}
+	} else {
+		ClearHelp(true);
 	}
 	await Delay(250);
 });
 
 function drawHelpText(text: string) {
+	BeginTextCommandDisplayHelp("STRING");
 	SetTextComponentFormat("STRING");
 	AddTextComponentString(text);
-	DisplayHelpTextFromStringLabel(0, true, true, -1);
+	EndTextCommandDisplayHelp(0, true, true, -1);
 }
 
 function getClosestVehicle(): number {
